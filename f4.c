@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-#define VERTEX_COUNT 100
+#define VERTEX_COUNT 10000
 
 
 void insertSort(int arr[], int n, int unsorted_vertex[])
@@ -50,6 +51,8 @@ int main(void)
     int removal_edge[2];
     int *vertex_weight;
 
+    clock_t start_time;
+	clock_t end_time;
 
     FILE * matrixFile;
 
@@ -62,7 +65,7 @@ int main(void)
     
 
     /*   ------------------             СЧИТЫВАЕТ ФАЙЛИК С МАТРИЦЕЙ               --------------    */
-    matrixFile = fopen("matrix.txt", "r");
+    matrixFile = fopen("matrix1.txt", "r");
         if (matrixFile == NULL)
         {
             printf("Can't open file for reading.\n");
@@ -83,7 +86,7 @@ int main(void)
                 else
                     matrix[h][w] = 1;
 
-                if(matrix[h][w]) printf("%d-%d\n", h+1, w+1);       //Выводит, если есть грань
+                //if(matrix[h][w]) printf("%d-%d\n", h+1, w+1);       //Выводит, если есть грань
 
                 w++;
             }
@@ -91,7 +94,7 @@ int main(void)
         h++;
     }
 
-    /*   ------------------             СОЗДАЕМ МАССИВ ВЕСОВ ВЕРТУШЕК               --------------    */
+    /*   ------------------             СОЗДАЕМ МАССИВ СТЕПЕНЕЙ ВЕРШИН               --------------    */
     len = h;
     vertex_weight = (int *) malloc(len * sizeof(int));
 
@@ -115,6 +118,8 @@ int main(void)
     matrix[removal_edge[0] - 1][removal_edge[1] - 1] = 0;
     matrix[removal_edge[1] - 1][removal_edge[0] - 1] = 0;
 
+    start_time = clock();
+
 
     /*   ------------------             СЧИТАЕМ ВЕС КАЖДОЙ ВЕРШИНЫ               --------------    */
     for(int i = 0; i < len; i++)
@@ -130,11 +135,12 @@ int main(void)
     /*   --------------------           ТУПО ВЫВОД              ----------------------   */
     printf("Sorted Vertex by weight\n");
     for(int j = 0; j< h; j++){
-        // for(int k = 0; k < w; k++){
-        //     printf("%d-%d: %d\n", j+1, k+1, matrix[j][k]);
-        // }
         printf("%d ", output_vertex[j]);
     }
+
+    end_time = clock();
+    fclose(matrixFile);
+    printf("\nspent time: %lf s\n", (double) (end_time - start_time) / CLOCKS_PER_SEC);
 
     return 1;
 }
