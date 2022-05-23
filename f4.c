@@ -38,7 +38,7 @@ int weight_count(int *line, int len, int i)
     return weight;
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
     int maxlen = VERTEX_COUNT*10;
     char line[maxlen];
@@ -65,7 +65,7 @@ int main(void)
     
 
     /*   ------------------             СЧИТЫВАЕТ ФАЙЛИК С МАТРИЦЕЙ               --------------    */
-    matrixFile = fopen("matrix1.txt", "r");
+    matrixFile = fopen(argv[1], "r");
         if (matrixFile == NULL)
         {
             printf("Can't open file for reading.\n");
@@ -132,15 +132,16 @@ int main(void)
     insertSort(vertex_weight, len, output_vertex);
 
 
-    /*   --------------------           ТУПО ВЫВОД              ----------------------   */
+    /*   --------------------            ВЫВОД              ----------------------   */
+    end_time = clock();
     printf("Sorted Vertex by weight\n");
     for(int j = 0; j< h; j++){
         printf("%d ", output_vertex[j]);
     }
 
-    end_time = clock();
+    
     fclose(matrixFile);
-    printf("\nspent time: %lf s\n", (double) (end_time - start_time) / CLOCKS_PER_SEC);
+    printf("\nspent time: %.1lf ms\n", (double) (end_time - start_time) / 1000*CLOCKS_PER_SEC);
 
-    return 1;
+    return 0;
 }
